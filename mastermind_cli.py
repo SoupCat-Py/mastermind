@@ -1,6 +1,15 @@
 import random
 attempts = 0
 
+# ANSI colors
+bg_green = '\033[42m'
+bg_yellow = '\033[43m'
+bg_none = '\033[49m'
+fg_blue = '\033[34m'
+fg_green = '\033[32m'
+fg_yellow = '\033[33m'
+fg_none = '\033[39m'
+
 def get_answer_pc():
     return(random.sample(range(0,10),4))
 
@@ -34,7 +43,7 @@ def check(ans, guess):
     for i in range(4):
         if ans[i] == guess[i]:
             ans_used[i] = guess_used[i] = True
-            feedback.append('✓')
+            feedback.append(f'{fg_green} {fg_none}')
         
     # SECOND PASS - whites
     for i in range(4):
@@ -42,19 +51,19 @@ def check(ans, guess):
             for j in range(4):
                 if not ans_used[j] and guess[i] == ans[j]:
                     guess_used[i] = ans_used[j] = True
-                    feedback.append('~')
+                    feedback.append(f'{fg_yellow}󰍶 {fg_none}')
                     break
         
     return ''.join(feedback)
 
 
 # print instructions
-print('''
+print(f'''
 Try to guess the 4-digit number
 There are no repeated digits
 You will get these hints:
-✓ = a digit is in the right spot
-~ = a digit is in the wrong spot  
+{fg_green}{bg_green}{fg_none}✓ = a digit is in the right spot{bg_none}{fg_green}
+{fg_yellow}{bg_yellow}{fg_none}– = a digit is in the wrong spot{bg_none}{fg_yellow}{fg_none}
 ''')
 
 # main gameplay loop
@@ -64,14 +73,19 @@ while True:
 
     guess = get_guess()
     if guess == 'end game':
-        print(f'the answer was{''.join(str(digit) for digit in ans)}')
+        ans_disp = ''.join(str(digit) for digit in ans)
+        print(f'The answer was {ans_disp}')
         quit()
     
     while guess != ans:
         print(check(ans, guess))
         print('')
         guess = get_guess()
+        if guess == 'end game':
+            ans_disp = ''.join(str(digit) for digit in ans)
+            print(f'\033[31mThe answer was {ans_disp}')
+            quit()
         
-    print('\nYOU WIN!')
+    print(f'\n\033[34mYOU WIN! 󱁖')
     print(f'It took you {str(attempts)} attempts')
     break
