@@ -2,14 +2,10 @@ import random
 attempts = 0
 
 # ANSI colors
-bg_green = '\033[42m'
-bg_yellow = '\033[43m'
-bg_none = '\033[49m'
-fg_blue = '\033[34m'
-fg_green = '\033[32m'
-fg_yellow = '\033[33m'
-fg_red = '\033[31m'
-fg_none = '\033[39m'
+def style(fg='fgnone', bg='bgnone',):
+    fg_dict = {'fgblue': 34, 'fggreen' : 32, 'fgyellow' : 33, 'fgred' : 31, 'fgnone' : 39}
+    bg_dict = {'bggreen' : 42, 'bgyellow' : 43, 'bgnone' : 49}
+    return f'\033[{str(fg_dict[fg])};{str(bg_dict[bg])}m'
 
 def get_answer_cli():
     return(random.sample(range(0,10),4))
@@ -28,9 +24,9 @@ def get_guess(ans):
                     attempts += 1
                     return guess_in
                 else:
-                    print(f'{fg_red}your guess must be 4 digits{fg_none}')
+                    print(f'{style("fgred")}your guess must be 4 digits{style()}')
             except:
-                print(f'{fg_red}error{fg_none}')
+                print(f'{style("fgred")}error{style()}')
         else:
             ans_disp = ''.join(str(digit) for digit in ans)
             print(f'The answer was {ans_disp}')
@@ -46,7 +42,7 @@ def check(ans, guess):
     for i in range(4):
         if ans[i] == guess[i]:
             ans_used[i] = guess_used[i] = True
-            feedback.append(f'{fg_green} {fg_none}')
+            feedback.append(f'{style("fggreen")} {style()}')
         
     # SECOND PASS - whites
     for i in range(4):
@@ -54,7 +50,7 @@ def check(ans, guess):
             for j in range(4):
                 if not ans_used[j] and guess[i] == ans[j]:
                     guess_used[i] = ans_used[j] = True
-                    feedback.append(f'{fg_yellow}󰍶 {fg_none}')
+                    feedback.append(f'{style("fgyellow")}󰍶 {style()}')
                     break
         
     return ''.join(feedback)
@@ -65,8 +61,8 @@ print(f'''
 Try to guess the 4-digit number
 There are no repeated digits
 You will get these hints:
-{fg_green}{bg_green}{fg_none}✓ = a digit is in the right spot{bg_none}{fg_green}
-{fg_yellow}{bg_yellow}{fg_none}– = a digit is in the wrong spot{bg_none}{fg_yellow}{fg_none}
+{style("fggreen")}{style("fgnone","bggreen")}✓ = a digit is in the right spot{style("fggreen")}
+{style("fgyellow")}{style("fgnone","bgyellow")}– = a digit is in the wrong spot{style("fgyellow")}{style()}
 ''')
 
 # main gameplay loop
@@ -81,6 +77,6 @@ while True:
         print('')
         guess = get_guess(ans)
         
-    print(f'\n\033[34m\x1b[5mYOU WIN! 󱁖\x1b[0m')  # blinking only works in select terminals
-    print(f'\033[34mIt took you {str(attempts)} attempts')
+    print(f'\n{style("fgblue")}\033[5mYOU WIN! 󱁖\033[25m')  # blinking only works in select terminals
+    print(f'It took you {str(attempts)} attempts')
     break
