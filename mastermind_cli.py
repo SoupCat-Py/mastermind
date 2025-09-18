@@ -8,6 +8,7 @@ bg_none = '\033[49m'
 fg_blue = '\033[34m'
 fg_green = '\033[32m'
 fg_yellow = '\033[33m'
+fg_red = '\033[31m'
 fg_none = '\033[39m'
 
 def get_answer_pc():
@@ -27,9 +28,9 @@ def get_guess():
                     attempts += 1
                     return guess_in
                 else:
-                    print('your guess must be 4 digits')
+                    print(f'{fg_red}your guess must be 4 digits{fg_none}')
             except:
-                print('error')
+                print(f'{fg_red}error{fg_none}')
         else:
             return 'end game'
             
@@ -83,7 +84,7 @@ while True:
         guess = get_guess()
         if guess == 'end game':
             ans_disp = ''.join(str(digit) for digit in ans)
-            print(f'\033[31mThe answer was {ans_disp}')
+            print(f'The answer was {ans_disp}')
             quit()
         
     print(f'\n\033[34mYOU WIN! 󱁖')
