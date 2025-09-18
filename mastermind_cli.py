@@ -14,7 +14,7 @@ fg_none = '\033[39m'
 def get_answer_pc():
     return(random.sample(range(0,10),4))
 
-def get_guess():
+def get_guess(ans):
     global attempts
     while True:
         guess_in = input(': ')
@@ -32,7 +32,9 @@ def get_guess():
             except:
                 print(f'{fg_red}error{fg_none}')
         else:
-            return 'end game'
+            ans_disp = ''.join(str(digit) for digit in ans)
+            print(f'The answer was {ans_disp}')
+            quit()
             
 def check(ans, guess):
     
@@ -72,20 +74,12 @@ while True:
 
     ans = get_answer_pc()
 
-    guess = get_guess()
-    if guess == 'end game':
-        ans_disp = ''.join(str(digit) for digit in ans)
-        print(f'The answer was {ans_disp}')
-        quit()
+    guess = get_guess(ans)
     
     while guess != ans:
         print(check(ans, guess))
         print('')
-        guess = get_guess()
-        if guess == 'end game':
-            ans_disp = ''.join(str(digit) for digit in ans)
-            print(f'The answer was {ans_disp}')
-            quit()
+        guess = get_guess(ans)
         
     print(f'\n\033[34mYOU WIN! 󱁖')
     print(f'It took you {str(attempts)} attempts')

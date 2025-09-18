@@ -9,7 +9,7 @@ def get_answer_ti():
         digits.remove(ans[len(ans)-1])
     return ans
 
-def get_guess():
+def get_guess(ans):
     global attempts
     while True:
         guess_in = input(': ')
@@ -27,7 +27,8 @@ def get_guess():
             except:
                 print('error')
         else:
-            return 'end game'
+            print('the answer was ' + ''.join(str(digit) for digit in ans))
+            quit()
             
 def check(ans, guess):
     
@@ -66,21 +67,13 @@ You will get these hints:
 while True:
 
     ans = get_answer_ti()
-    
-    def check_close():
-        if guess == 'end game':
-            print('the answer was ' + ''.join(str(digit) for digit in ans))
-            quit()
-        
 
-    guess = get_guess()
-    check_close()
+    guess = get_guess(ans)
     
     while guess != ans:
         print(check(ans, guess))
         print('')
-        guess = get_guess()
-        check_close()
+        guess = get_guess(ans)
         
     print('\nYOU WIN!')
     print('It took you ' + str(attempts) + ' attempts')  # do not use f-strings for ti
