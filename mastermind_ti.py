@@ -66,16 +66,21 @@ You will get these hints:
 while True:
 
     ans = get_answer_ti()
+    
+    def check_close():
+        if guess == 'end game':
+            print('the answer was ' + ''.join(str(digit) for digit in ans))
+            quit()
+        
 
     guess = get_guess()
-    if guess == 'end game':
-        print('the answer was ' + ''.join(str(digit) for digit in ans))
-        quit()
+    check_close()
     
     while guess != ans:
         print(check(ans, guess))
         print('')
         guess = get_guess()
+        check_close()
         
     print('\nYOU WIN!')
     print('It took you ' + str(attempts) + ' attempts')  # do not use f-strings for ti
