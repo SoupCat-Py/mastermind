@@ -11,7 +11,7 @@ fg_yellow = '\033[33m'
 fg_red = '\033[31m'
 fg_none = '\033[39m'
 
-def get_answer_pc():
+def get_answer_cli():
     return(random.sample(range(0,10),4))
 
 def get_guess(ans):
@@ -72,7 +72,7 @@ You will get these hints:
 # main gameplay loop
 while True:
 
-    ans = get_answer_pc()
+    ans = get_answer_cli()
 
     guess = get_guess(ans)
     
@@ -81,6 +81,6 @@ while True:
         print('')
         guess = get_guess(ans)
         
-    print(f'\n\033[34mYOU WIN! 󱁖')
-    print(f'It took you {str(attempts)} attempts')
+    print(f'\n\033[34m\x1b[5mYOU WIN! 󱁖\x1b[0m')  # blinking only works in select terminals
+    print(f'\033[34mIt took you {str(attempts)} attempts')
     break
